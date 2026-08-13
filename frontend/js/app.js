@@ -193,10 +193,11 @@ document.addEventListener("DOMContentLoaded", () => {
         searchResults.classList.remove("hidden");
     }
 
-    // UX-004: helper ẩn row nếu giá trị rỗng
+    // UX-004: helper ẩn row nếu giá trị rỗng (với null-guard phòng element bị xóa khỏi HTML)
     function setInfoRow(rowId, value, emptyText) {
         const el = document.getElementById(rowId);
-        const row = el ? el.closest(".info-row") : null;
+        if (!el) return; // Guard: element không tồn tại trong DOM
+        const row = el.closest(".info-row");
         if (value && value !== emptyText) {
             el.innerText = value;
             if (row) row.style.display = "";
@@ -213,7 +214,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("badgeGen").innerText = `Đời ${m.generation}`;
         document.getElementById("badgeStatus").innerText = m.status || "Còn sống";
         
-        document.getElementById("infoId").innerText = m.id || "---";
         document.getElementById("infoParent").innerText = m.parent_id ? getMemberNameById(m.parent_id) : "(Thuỷ Tổ)";
         
         setInfoRow("infoOrder", m.order_in_family ? `Con thứ ${m.order_in_family}` : null, null);
