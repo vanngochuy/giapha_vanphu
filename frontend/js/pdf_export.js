@@ -51,7 +51,7 @@ class PDFExporter {
             pdf.text("SƠ ĐỒ CÂY GIA PHẢ HỌ VĂN PHÚ", pdfWidth / 2, 12, { align: "center" });
 
             pdf.setFontSize(9);
-            pdf.setFontStyle("italic");
+            pdf.setFont("helvetica", "italic");
             pdf.setTextColor(184, 172, 142);
             pdf.text(`Truy cập trực tuyến: https://gia-pha-van-phu.vercel.app | Ngày xuất: ${new Date().toLocaleDateString('vi-VN')}`, pdfWidth / 2, pdfHeight - 6, { align: "center" });
 

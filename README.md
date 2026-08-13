@@ -1,68 +1,137 @@
-# Gia Phả Họ Văn Phú (Van Phu Genealogy Web System)
+# Gia Phả Họ Văn Phú — Van Phu Genealogy Web System
 
-Hệ thống quản lý và hiển thị cây gia phả tương tác chuẩn **Classic Vintage & Mystical** dành cho Họ Văn Phú, cho phép chạy hoàn toàn trên Web (Vercel / Supabase) hoặc chạy Local.
+> Hệ thống quản lý và hiển thị cây gia phả tương tác chuẩn **Classic Vintage & Mystical** dành cho Họ Văn Phú.  
+> Chạy hoàn toàn trên Web (Vercel + Supabase) hoặc chạy Local.
 
 ---
 
 ## 🌟 Tính Năng Nổi Bật
-1. **Kiến Trúc Đệ Quy CTE PostgreSQL / SQLite (`WITH RECURSIVE`):**
-   - Truy vấn toàn bộ hệ thống 6 thế hệ (106 thành viên) chỉ trong 1 lần duy nhất, trả về cây JSON phân cấp.
-2. **Giao Diện Cổ Kính Vintage & Trang Trọng (Classic Vintage Theme):**
-   - Tông màu tối Obsidian Dark Green (`#080D0C`), họa tiết & chữ vàng cổ Antique Gold (`#D4AF37`).
-   - Font chữ Serif cổ điển: *Cinzel*, *Playfair Display*, *Merriweather*.
-3. **Đồ Thị Cây Tương Tác D3.js (Canvas >= 85% Viewport):**
-   - Phóng to / Thu nhỏ (Zoom & Pan), Đặt lại góc nhìn (Reset View).
-   - Thu gập / Mở rộng các nhánh (Expand / Collapse nodes).
-   - Tìm kiếm thành viên tức thì với khả năng tự động canh giữa (Auto-center & Highlight).
-4. **Bảng Chi Tiết Slide-in Side Panel:**
-   - Trượt êm ái từ bên phải (trên Desktop) hoặc trượt từ dưới lên (trên Mobile) khi click chọn thành viên, hiển thị thông tin cha/mẹ, vợ/chồng, ngày giỗ âm lịch, mộ phần, ghi chú.
-5. **Xuất PDF Độ Phân Giải Cao:**
-   - Nút Xuất PDF trực tiếp trên web tạo file `GiaPha_VanPhu_Tree.pdf` lưu trữ sắc nét.
+
+| # | Tính Năng | Mô Tả |
+|---|-----------|-------|
+| 1 | **Cây Gia Phả Tương Tác D3.js** | Phóng to/thu nhỏ, mở/đóng nhánh, tìm kiếm & auto-center |
+| 2 | **Kiến Trúc Đệ Quy CTE PostgreSQL/SQLite** | `WITH RECURSIVE` — 106 thành viên, 6 đời, 1 query |
+| 3 | **Giao Diện Vintage Cổ Kính** | Dark Obsidian + Antique Gold, fonts Cinzel & Playfair |
+| 4 | **Side Panel Slide-in** | Chi tiết thành viên, ngày giỗ, mộ phần, quan hệ gia đình |
+| 5 | **Xuất PDF Độ Phân Giải Cao** | A4 Landscape, chất lượng in sắc nét |
+| 6 | **Responsive Mobile** | Side panel trượt từ dưới lên trên mobile |
 
 ---
 
-## 🚀 Hướng Dẫn Chạy Local (Chạy Trên Máy)
+## 📁 Cấu Trúc Dự Án
 
-### Bước 1: Cài đặt thư viện Python
+```
+GIA PHẢ/
+├── backend/app/
+│   ├── main.py          # FastAPI routes, CORS, static serving
+│   ├── models.py        # SQLAlchemy ORM (FamilyMember)
+│   ├── schemas.py       # Pydantic request/response schemas
+│   ├── crud.py          # CRUD + WITH RECURSIVE CTE query
+│   ├── database.py      # DB engine (SQLite/PostgreSQL)
+│   └── seed.py          # Seed dữ liệu từ Excel
+├── backend/tests/
+│   └── test_hierarchy.py # pytest tests
+├── frontend/
+│   ├── index.html       # Giao diện Vintage
+│   ├── css/style.css    # Vintage Dark CSS theme
+│   └── js/
+│       ├── app.js              # App orchestrator
+│       ├── tree_visualizer.js  # D3.js tree class
+│       └── pdf_export.js       # PDF export module
+├── docs/
+│   ├── 01-kien-truc-tong-quan.md  # Kiến trúc hệ thống
+│   ├── 02-database-schema.md      # Database schema
+│   ├── 03-frontend-ui-ux.md       # UI/UX design rules
+│   ├── 04-ke-hoach-phat-trien.md  # Kế hoạch phát triển
+│   └── 05-task-list.md            # Danh sách công việc
+├── GiaPha_VanPhu.xlsx   # Dữ liệu nguồn (106 thành viên)
+├── gia_pha.db           # SQLite database (local)
+├── vercel.json          # Vercel deploy config
+└── requirements.txt     # Python dependencies
+```
+
+---
+
+## 🚀 Chạy Local
+
+### Bước 1: Cài đặt Python dependencies
 ```bash
 pip install -r backend/requirements.txt
 ```
 
-### Bước 2: Nạp dữ liệu Excel vào Database
-```bash
-python -m backend.app.seed
-```
-*Script sẽ tự động đọc `GiaPha_VanPhu.xlsx` và khởi tạo cơ sở dữ liệu `gia_pha.db` (106 thành viên).*
-
-### Bước 3: Khởi chạy Server Web
+### Bước 2: Khởi chạy Server (auto-seed khi DB trống)
 ```bash
 uvicorn backend.app.main:app --reload --port 8000
 ```
-Mở trình duyệt truy cập: **`http://localhost:8000`**
+
+Mở trình duyệt: **`http://localhost:8000`**
+
+### Bước 3 (tuỳ chọn): Seed dữ liệu thủ công
+```bash
+python -m backend.app.seed
+```
+
+### Chạy Tests
+```bash
+pytest backend/tests/ -v
+```
 
 ---
 
-## ☁️ Hướng Dẫn Deploy Lên Web Chạy Hoàn Toàn Online (Miễn Phí 100%)
+## ☁️ Deploy Lên Production (Miễn Phí 100%)
 
-### Bước 1: Tạo Database PostgreSQL Cloud Trên Supabase
-1. Truy cập [Supabase.com](https://supabase.com) và đăng ký tài khoản miễn phí.
-2. Tạo một **New Project** tên `gia-pha-van-phu`.
-3. Vào phần **Project Settings** -> **Database** -> Sao chép chuỗi `URI` kết nối Database (dạng `postgresql://postgres:[PASSWORD]@db.xxxx.supabase.co:5432/postgres`).
+### Bước 1: Tạo PostgreSQL trên Supabase
+1. Truy cập [Supabase.com](https://supabase.com) → Đăng ký → **New Project** tên `gia-pha-van-phu`
+2. Vào **Project Settings → Database** → Copy chuỗi `URI` kết nối
 
-### Bước 2: Upload Code Lên GitHub
+### Bước 2: Push lên GitHub
 ```bash
-git init
 git add .
-git commit -m "Initial commit Gia Phả Họ Văn Phú Web System"
+git commit -m "feat: initial release Gia Phả Họ Văn Phú v1.0"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/gia-pha-van-phu.git
+git remote add origin https://github.com/vanngochuy/giapha_vanphu.git
 git push -u origin main
 ```
 
-### Bước 3: Deploy Lên Vercel
-1. Truy cập [Vercel.com](https://vercel.com) -> Đăng nhập -> Chọn **Add New Project**.
-2. Chọn Repository `gia-pha-van-phu` vừa đẩy lên GitHub.
-3. Trong phần **Environment Variables**, thêm biến môi trường:
+### Bước 3: Deploy lên Vercel
+1. Truy cập [Vercel.com](https://vercel.com) → **Add New Project** → Chọn repo GitHub
+2. **Environment Variables** → Thêm:
    - Name: `DATABASE_URL`
-   - Value: `<Chuỗi URI Supabase vừa copy ở Bước 1>`
-4. Nhấn **Deploy**. Sau 1-2 phút, bạn sẽ nhận được đường link web chính thức (VD: `https://gia-pha-van-phu.vercel.app`) để chia sẻ cho dòng họ truy cập từ bất kỳ đâu!
+   - Value: `<Chuỗi URI Supabase>`
+3. Nhấn **Deploy** → Nhận URL: `https://gia-pha-van-phu.vercel.app`
+
+---
+
+## 📊 Dữ Liệu Gia Phả
+
+- **Tổng thành viên:** 106 người
+- **Số đời:** 6 thế hệ
+- **Thuỷ Tổ:** Ông Văn Phú Dưỡng (Đời 1)
+- **Nguồn dữ liệu:** `GiaPha_VanPhu.xlsx`
+
+---
+
+## 📚 Tài Liệu
+
+| File | Nội dung |
+|------|---------|
+| [01-kien-truc-tong-quan.md](docs/01-kien-truc-tong-quan.md) | Kiến trúc hệ thống, stack công nghệ, API endpoints |
+| [02-database-schema.md](docs/02-database-schema.md) | Schema bảng, CTE query, cấu trúc Excel |
+| [03-frontend-ui-ux.md](docs/03-frontend-ui-ux.md) | Thiết kế UI, màu sắc, typography, D3.js |
+| [04-ke-hoach-phat-trien.md](docs/04-ke-hoach-phat-trien.md) | Roadmap 8 phases với trạng thái chi tiết |
+| [05-task-list.md](docs/05-task-list.md) | Danh sách công việc chi tiết (checklist) |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend:** Python 3.10+, FastAPI, SQLAlchemy 2.x
+- **Database:** SQLite (local) / PostgreSQL (production via Supabase)
+- **Frontend:** HTML5, Vanilla JS, Vanilla CSS
+- **Visualization:** D3.js v7
+- **PDF:** html2canvas + jsPDF
+- **Deploy:** Vercel + Supabase (free tier)
+
+---
+
+*Gia Phả Họ Văn Phú — Văn Phú Tộc Gia Phả - Bách Niên Cổ Thụ*

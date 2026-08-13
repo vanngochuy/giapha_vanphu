@@ -73,10 +73,13 @@ def parse_and_seed_excel(excel_path: str = "GiaPha_VanPhu.xlsx", db: Session = N
                 if pname in name_to_id:
                     parent_id = name_to_id[pname]
                 else:
-                    # Partial match fallback
-                    matches = [k for k in name_to_id.keys() if pname in k or k in pname]
+                    # Better fallback: Exact match ignoring case
+                    normalized_pname = pname.strip().lower()
+                    matches = [k for k in name_to_id.keys() if k.strip().lower() == normalized_pname]
                     if matches:
                         parent_id = name_to_id[matches[0]]
+                    else:
+                        print(f"Warning: Could not link parent '{pname}' for '{r['full_name']}' (ID: {r['id']})")
             
             # Upsert into database
             db_member = db.query(FamilyMember).filter(FamilyMember.id == r["id"]).first()

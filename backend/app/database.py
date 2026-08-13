@@ -1,7 +1,6 @@
 import os
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 # Default to SQLite for local development, or environment variable for PostgreSQL / Supabase
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./gia_pha.db")
