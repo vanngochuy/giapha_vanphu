@@ -33,27 +33,29 @@
 }
 
 body.light-theme {
-    --bg-dark-obsidian: #F5F2EB;
-    --bg-dark-emerald: #F5F2EB;
-    --bg-card-gradient: #FFFFFF;
-    --bg-panel: #FFFFFF;
+    --bg-dark-obsidian: #F5F2EB; /* SVG Canvas Background */
+    --bg-dark-emerald: #EAE6DD; /* Header Background */
+    --bg-panel: #FFFFFF; /* Side Panel Background */
     
-    --gold-primary: #A67C33;
-    --gold-light: #B58A3F;
-    --gold-bright: #8A6522;
-    --gold-border: rgba(166, 124, 51, 0.3);
-    --gold-glow: rgba(166, 124, 51, 0.1);
-    
+    /* Text in panel and header */
     --parchment-text: #2C2A26;
-    --parchment-muted: #6B6960;
     
-    --seal-red: #A6402E;
-    
-    --bg-root-node: #FDE8E4;
-    --seal-text: #FFFFFF;
-    --node-selected: #FFF4E3;
-    
+    /* Shadow */
     --shadow-vintage: 0 4px 12px rgba(0, 0, 0, 0.08);
+    
+    /* KHÔNG ghi đè --bg-card-gradient, --gold, --bg-root-node... để các thẻ người (nodes) giữ nguyên màu tối */
+}
+
+body.light-theme .search-input {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .search-results {
+    background: #FFFFFF;
+}
+
+body.light-theme .search-result-item:hover {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 /* Reset & Base Styles */
@@ -206,7 +208,7 @@ body.vintage-theme {
 /* Buttons */
 .btn-gold {
     background: var(--seal-red);
-    color: var(--parchment-text);
+    color: #EAE3D3; /* Luôn giữ màu sáng trên nền đỏ */
     border: none;
     padding: 8px 16px;
     border-radius: 20px;
