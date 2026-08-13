@@ -3,29 +3,28 @@
    ========================================================================== */
 
 :root {
-    /* Color Tokens */
-    --bg-dark-obsidian: #080D0C;
-    --bg-dark-emerald: #0E1815;
-    --bg-card-gradient: linear-gradient(145deg, #162420 0%, #0F1A17 100%);
-    --bg-panel: #0D1614;
+    --bg-dark-obsidian: #1A1815;
+    --bg-dark-emerald: #1A1815;
+    --bg-card-gradient: #242018;
+    --bg-panel: #242018;
     
-    --gold-primary: #D4AF37;
-    --gold-light: #F3E5AB;
-    --gold-bright: #FFD700;
-    --gold-border: rgba(212, 175, 55, 0.4);
-    --gold-glow: rgba(212, 175, 55, 0.25);
+    --gold-primary: #B58A3F;
+    --gold-light: #D3B673;
+    --gold-bright: #B58A3F;
+    --gold-border: rgba(181, 138, 63, 0.3);
+    --gold-glow: rgba(181, 138, 63, 0.15);
     
-    --parchment-text: #EADCB9;
-    --parchment-muted: #B8AC8E;
+    --parchment-text: #EAE3D3;
+    --parchment-muted: #8A8977;
     
-    --male-accent: #3B82F6;
-    --female-accent: #EC4899;
+    --seal-red: #A6402E;
     
-    --font-heading: 'Cinzel', 'Playfair Display', Georgia, serif;
-    --font-body: 'Merriweather', serif;
+    --font-heading: 'Noto Serif', Georgia, serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
     
-    --shadow-vintage: 0 10px 30px rgba(0, 0, 0, 0.7);
+    --shadow-vintage: 0 2px 8px rgba(0, 0, 0, 0.4);
     --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -178,8 +177,8 @@ body.vintage-theme {
 
 /* Buttons */
 .btn-gold {
-    background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%);
-    color: #080D0C;
+    background: var(--seal-red);
+    color: var(--parchment-text);
     border: none;
     padding: 8px 16px;
     border-radius: 20px;
@@ -190,14 +189,14 @@ body.vintage-theme {
     display: flex;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 4px 12px rgba(166, 64, 46, 0.3);
     transition: var(--transition-smooth);
 }
 
 .btn-gold:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.5);
-    background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%);
+    box-shadow: 0 6px 16px rgba(166, 64, 46, 0.5);
+    background: #C44C36;
 }
 
 .btn-outline-gold {
@@ -290,16 +289,6 @@ body.vintage-theme {
     z-index: 50;
 }
 
-.badge-dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-right: 4px;
-}
-.dot-male { background-color: var(--male-accent); }
-.dot-female { background-color: var(--female-accent); }
-.dot-gold { background-color: var(--gold-bright); }
 .legend-info { color: var(--gold-primary); font-weight: bold; margin-left: 8px; }
 
 /* Slide-in Side Panel */
@@ -464,25 +453,24 @@ body.vintage-theme {
 }
 
 .node-rect {
-    fill: #14221E;
-    stroke: var(--gold-primary);
-    stroke-width: 1.5px;
+    fill: #242018;
+    stroke: var(--gold-border);
+    stroke-width: 1px;
     rx: 8px;
     ry: 8px;
-    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.6));
     transition: all 0.25s ease;
 }
 
 .node-card:hover .node-rect {
-    stroke: var(--gold-bright);
-    stroke-width: 2.5px;
-    filter: drop-shadow(0px 6px 14px rgba(212, 175, 55, 0.5));
+    stroke: var(--gold-primary);
+    stroke-width: 1.5px;
 }
 
 .node-card.selected .node-rect {
     stroke: var(--gold-bright);
-    stroke-width: 3px;
-    fill: #1E332D;
+    stroke-width: 2px;
+    fill: #2D271D;
+    filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.4));
 }
 
 .node-text-name {

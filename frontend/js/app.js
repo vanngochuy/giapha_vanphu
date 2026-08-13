@@ -153,10 +153,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const avatarIcon = document.getElementById("memberAvatarIcon");
         if (m.gender === "Nữ") {
             avatarIcon.className = "fa-solid fa-user-nurse";
-            avatarIcon.style.color = "#EC4899";
+            avatarIcon.style.color = "var(--parchment-muted)";
         } else {
             avatarIcon.className = "fa-solid fa-user-tie";
-            avatarIcon.style.color = "#D4AF37";
+            avatarIcon.style.color = "var(--gold-primary)";
         }
 
         // Show side panel

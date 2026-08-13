@@ -13,6 +13,15 @@
 
 ---
 
+## Phase 2B: Design System v2
+- [x] ✅ **[T2B-001]** Cập nhật CSS Variables (Màu sắc, Fonts, Shadows)
+- [x] ✅ **[T2B-002]** Đổi link Google Fonts trong `index.html`
+- [x] ✅ **[T2B-003]** Cập nhật style nút bấm và badges (Nam/Nữ)
+- [x] ✅ **[T2B-004]** Tối ưu style D3.js Nodes (Bỏ drop-shadow, sửa viền)
+- [x] ✅ **[T2B-005]** Thêm dấu triện (Signature seal) cho Thuỷ Tổ
+
+---
+
 ## Phase 5: Testing & Deployment
 
 ### 5A. Unit Tests Backend

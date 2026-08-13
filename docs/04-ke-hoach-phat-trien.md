@@ -12,6 +12,7 @@
 Phase 0: Foundation Setup         [✅ HOÀN THÀNH]
 Phase 1: Backend API Core         [✅ HOÀN THÀNH]
 Phase 2: Frontend MVP             [✅ HOÀN THÀNH]
+Phase 2B: Design System v2        [✅ HOÀN THÀNH]
 Phase 3: D3.js Tree Visualization [✅ HOÀN THÀNH]
 Phase 4: PDF Export               [✅ HOÀN THÀNH]
 Phase 5: Testing & Deployment     [🔄 ĐANG THỰC HIỆN]
@@ -67,6 +68,20 @@ Phase 8: Tối Ưu & Hoàn Thiện    [⏳ KẾ HOẠCH]
 | 2.6 | Side panel slide-in (desktop + mobile) | `index.html` | ✅ Done |
 | 2.7 | Loading spinner vintage style | `index.html` | ✅ Done |
 | 2.8 | Legend bar (Nam/Nữ/Thuỷ Tổ) | `index.html` | ✅ Done |
+
+---
+
+## Phase 2B: Design System v2 ✅
+
+**Mục tiêu:** Nâng cấp UI/UX theo hướng tài liệu lưu trữ, chuyên nghiệp (bỏ glow/blur, dùng Noto Serif, IBM Plex Mono, màu Đen ấm/Giấy cũ)
+
+| Bước | Công việc | File | Trạng thái |
+|------|-----------|------|-----------|
+| 2B.1 | Cập nhật CSS Variables (Màu sắc, Fonts, Shadows) | `style.css` | ✅ Done |
+| 2B.2 | Đổi link Google Fonts | `index.html` | ✅ Done |
+| 2B.3 | Cập nhật style nút bấm và badges (Nam/Nữ) | `style.css`, `index.html`, `app.js` | ✅ Done |
+| 2B.4 | Tối ưu style D3.js Nodes (Bỏ drop-shadow, sửa viền) | `tree_visualizer.js`, `style.css` | ✅ Done |
+| 2B.5 | Thêm dấu triện (Signature seal) cho Thuỷ Tổ | `tree_visualizer.js` | ✅ Done |
 
 ---
 

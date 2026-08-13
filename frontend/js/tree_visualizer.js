@@ -98,7 +98,27 @@ class TreeVisualizer {
             .attr("height", this.nodeHeight)
             .attr("x", 0)
             .attr("y", -this.nodeHeight / 2)
-            .attr("rx", 8);
+            .attr("rx", 8)
+            .style("stroke", d => d.data.generation === 1 ? "var(--seal-red)" : null)
+            .style("fill", d => d.data.generation === 1 ? "#201715" : null);
+
+        // Signature seal for Thuỷ Tổ (Top Left - overlapping border)
+        const sealGroup = nodeEnter.filter(d => d.data.generation === 1).append("g")
+            .attr("transform", `translate(-4, ${-this.nodeHeight / 2 - 4}) rotate(-8)`);
+        
+        sealGroup.append("circle")
+            .attr("r", 14)
+            .attr("fill", "var(--seal-red)");
+            
+        sealGroup.append("text")
+            .attr("x", 0)
+            .attr("y", 4)
+            .attr("text-anchor", "middle")
+            .attr("fill", "#1A1815")
+            .attr("font-family", "var(--font-heading)")
+            .attr("font-size", "12px")
+            .attr("font-weight", "bold")
+            .text("VP");
 
         // Header Line Divider inside Card
         nodeEnter.append("line")
@@ -111,11 +131,12 @@ class TreeVisualizer {
 
         // Generation Badge Text (Top Left)
         nodeEnter.append("text")
-            .attr("x", 10)
+            .attr("x", 12)
             .attr("y", -this.nodeHeight / 2 + 17)
-            .attr("fill", "#D4AF37")
-            .attr("font-size", "10px")
-            .attr("font-weight", "bold")
+            .attr("fill", "var(--gold-primary)")
+            .attr("font-size", "11px")
+            .attr("font-weight", "600")
+            .attr("font-family", "var(--font-mono)")
             .text(d => `Đời ${d.data.generation}`);
 
         // Expand/Collapse Indicator Badge (Top Right)
@@ -124,7 +145,7 @@ class TreeVisualizer {
             .attr("x", this.nodeWidth - 12)
             .attr("y", -this.nodeHeight / 2 + 17)
             .attr("text-anchor", "end")
-            .attr("fill", "#D4AF37")
+            .attr("fill", "var(--gold-primary)")
             .attr("font-size", "12px")
             .style("cursor", "pointer")
             .text(d => d._children ? "⊕" : (d.children ? "⊖" : ""))
