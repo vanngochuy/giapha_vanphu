@@ -26,6 +26,34 @@
     
     --shadow-vintage: 0 2px 8px rgba(0, 0, 0, 0.4);
     --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    --bg-root-node: #201715;
+    --seal-text: #1A1815;
+    --node-selected: #2D271D;
+}
+
+body.light-theme {
+    --bg-dark-obsidian: #F5F2EB;
+    --bg-dark-emerald: #F5F2EB;
+    --bg-card-gradient: #FFFFFF;
+    --bg-panel: #FFFFFF;
+    
+    --gold-primary: #A67C33;
+    --gold-light: #B58A3F;
+    --gold-bright: #8A6522;
+    --gold-border: rgba(166, 124, 51, 0.3);
+    --gold-glow: rgba(166, 124, 51, 0.1);
+    
+    --parchment-text: #2C2A26;
+    --parchment-muted: #6B6960;
+    
+    --seal-red: #A6402E;
+    
+    --bg-root-node: #FDE8E4;
+    --seal-text: #FFFFFF;
+    --node-selected: #FFF4E3;
+    
+    --shadow-vintage: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Reset & Base Styles */
@@ -453,7 +481,7 @@ body.vintage-theme {
 }
 
 .node-rect {
-    fill: #242018;
+    fill: var(--bg-card-gradient);
     stroke: var(--gold-border);
     stroke-width: 1px;
     rx: 8px;
@@ -469,7 +497,7 @@ body.vintage-theme {
 .node-card.selected .node-rect {
     stroke: var(--gold-bright);
     stroke-width: 2px;
-    fill: #2D271D;
+    fill: var(--node-selected);
     filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.4));
 }
 

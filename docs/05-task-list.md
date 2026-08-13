@@ -22,6 +22,13 @@
 
 ---
 
+## Phase 2C: Light/Dark Mode
+- [x] ✅ **[T2C-001]** Thêm CSS variables cho Light Theme trong `style.css`
+- [x] ✅ **[T2C-002]** Thêm nút Toggle Theme (Sáng/Tối) vào góc phải Header (`index.html`)
+- [x] ✅ **[T2C-003]** Viết script chuyển đổi theme, tự động nhận diện thời gian thực (`app.js`)
+
+---
+
 ## Phase 5: Testing & Deployment
 
 ### 5A. Unit Tests Backend

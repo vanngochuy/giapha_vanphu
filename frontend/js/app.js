@@ -2,6 +2,37 @@
  * Gia Phả Họ Văn Phú - Main Application Manager
  */
 document.addEventListener("DOMContentLoaded", () => {
+    // --- Theme Toggle Logic ---
+    const btnThemeToggle = document.getElementById("btnThemeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+    const currentHour = new Date().getHours();
+    const isDayTime = currentHour >= 6 && currentHour < 18;
+    
+    let currentTheme = localStorage.getItem("theme");
+    if (!currentTheme) {
+        currentTheme = isDayTime ? "light" : "dark"; // Default theo thời gian thực (6h sáng đến 6h tối là sáng)
+    }
+
+    const applyTheme = (theme) => {
+        if (theme === "light") {
+            document.body.classList.add("light-theme");
+            if(themeIcon) themeIcon.className = "fa-solid fa-moon"; // Hiện mặt trăng để bấm tắt light mode
+        } else {
+            document.body.classList.remove("light-theme");
+            if(themeIcon) themeIcon.className = "fa-solid fa-sun"; // Hiện mặt trời để bật light mode
+        }
+        localStorage.setItem("theme", theme);
+    };
+
+    applyTheme(currentTheme);
+    
+    if (btnThemeToggle) {
+        btnThemeToggle.addEventListener("click", () => {
+            currentTheme = currentTheme === "light" ? "dark" : "light";
+            applyTheme(currentTheme);
+        });
+    }
+
     let treeVisualizer = null;
     let allMembersList = [];
     let treeHierarchyData = null;

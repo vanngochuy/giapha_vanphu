@@ -100,7 +100,7 @@ class TreeVisualizer {
             .attr("y", -this.nodeHeight / 2)
             .attr("rx", 8)
             .style("stroke", d => d.data.generation === 1 ? "var(--seal-red)" : null)
-            .style("fill", d => d.data.generation === 1 ? "#201715" : null);
+            .style("fill", d => d.data.generation === 1 ? "var(--bg-root-node)" : null);
 
         // Signature seal for Thuỷ Tổ (Top Left - overlapping border)
         const sealGroup = nodeEnter.filter(d => d.data.generation === 1).append("g")
@@ -114,7 +114,7 @@ class TreeVisualizer {
             .attr("x", 0)
             .attr("y", 4)
             .attr("text-anchor", "middle")
-            .attr("fill", "#1A1815")
+            .attr("fill", "var(--seal-text)")
             .attr("font-family", "var(--font-heading)")
             .attr("font-size", "12px")
             .attr("font-weight", "bold")

@@ -13,6 +13,7 @@ Phase 0: Foundation Setup         [✅ HOÀN THÀNH]
 Phase 1: Backend API Core         [✅ HOÀN THÀNH]
 Phase 2: Frontend MVP             [✅ HOÀN THÀNH]
 Phase 2B: Design System v2        [✅ HOÀN THÀNH]
+Phase 2C: Light/Dark Mode         [✅ HOÀN THÀNH]
 Phase 3: D3.js Tree Visualization [✅ HOÀN THÀNH]
 Phase 4: PDF Export               [✅ HOÀN THÀNH]
 Phase 5: Testing & Deployment     [🔄 ĐANG THỰC HIỆN]
@@ -82,6 +83,18 @@ Phase 8: Tối Ưu & Hoàn Thiện    [⏳ KẾ HOẠCH]
 | 2B.3 | Cập nhật style nút bấm và badges (Nam/Nữ) | `style.css`, `index.html`, `app.js` | ✅ Done |
 | 2B.4 | Tối ưu style D3.js Nodes (Bỏ drop-shadow, sửa viền) | `tree_visualizer.js`, `style.css` | ✅ Done |
 | 2B.5 | Thêm dấu triện (Signature seal) cho Thuỷ Tổ | `tree_visualizer.js` | ✅ Done |
+
+---
+
+## Phase 2C: Light/Dark Mode ✅
+
+**Mục tiêu:** Tính năng đổi giao diện sáng/tối theo thời gian thực và nút bật/tắt thủ công ở góc trên cùng.
+
+| Bước | Công việc | File | Trạng thái |
+|------|-----------|------|-----------|
+| 2C.1 | Thêm CSS variables cho Light Theme | `style.css` | ✅ Done |
+| 2C.2 | Thêm nút Toggle Theme góc phải trên cùng | `index.html` | ✅ Done |
+| 2C.3 | JS logic đổi Theme + Lưu LocalStorage + Auto theo giờ | `app.js` | ✅ Done |
 
 ---
 
