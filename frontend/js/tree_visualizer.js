@@ -91,7 +91,7 @@ class TreeVisualizer {
                 this.onNodeClick(d.data);
             });
 
-        // Node Rectangle Background
+        // Node Rectangle Background — màu theo trạng thái sống/mất
         nodeEnter.append("rect")
             .attr("class", "node-rect")
             .attr("width", this.nodeWidth)
@@ -99,8 +99,17 @@ class TreeVisualizer {
             .attr("x", -this.nodeWidth / 2)
             .attr("y", -this.nodeHeight / 2)
             .attr("rx", 8)
-            .style("stroke", d => d.data.generation === 1 ? "var(--seal-red)" : null)
-            .style("fill", d => d.data.generation === 1 ? "var(--bg-root-node)" : null);
+            .style("stroke", d => {
+                if (d.data.generation === 1) return "var(--seal-red)";
+                if (d.data.status === "Còn sống") return "var(--node-alive-border)";
+                return "var(--node-dead-border)";
+            })
+            .style("stroke-width", d => d.data.generation === 1 ? "2px" : "1.5px")
+            .style("fill", d => {
+                if (d.data.generation === 1) return "var(--bg-root-node)";
+                if (d.data.status === "Còn sống") return "var(--node-alive)";
+                return "var(--node-dead)";
+            });
 
         // Signature seal for Thuỷ Tổ (Top Left - overlapping border)
         const sealGroup = nodeEnter.filter(d => d.data.generation === 1).append("g")

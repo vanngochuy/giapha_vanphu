@@ -30,7 +30,12 @@
     --bg-root-node: #201715;
     --seal-text: #1A1815;
     --node-selected: #2D271D;
-}
+
+    /* Node Status Colors */
+    --node-alive: #0D2B3E;       /* Xanh dương đậm — Còn sống */
+    --node-alive-border: #2E7DAF; /* Viền xanh nước — Còn sống */
+    --node-dead: #2A2A2A;        /* Xám than — Đã mất */
+    --node-dead-border: #555552; /* Viền xám — Đã mất */
 
 body.light-theme {
     --bg-dark-obsidian: #F5F2EB; /* SVG Canvas Background */
@@ -456,6 +461,45 @@ body.vintage-theme {
 .badge-gold { background: var(--gold-primary); color: #000; }
 .badge-dark { background: rgba(255, 255, 255, 0.1); color: var(--parchment-text); }
 .badge-status { background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981; }
+.badge-status.dead { background: rgba(100, 100, 100, 0.2); color: #999; border: 1px solid #666; }
+
+/* Nút Toggle Trạng Thái Sống/Mất */
+.btn-status-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid;
+    transition: all 0.25s ease;
+}
+.btn-status-toggle.alive {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10B981;
+    border-color: #10B981;
+}
+.btn-status-toggle.alive:hover {
+    background: rgba(16, 185, 129, 0.25);
+}
+.btn-status-toggle.dead {
+    background: rgba(100, 100, 100, 0.12);
+    color: #999;
+    border-color: #666;
+}
+.btn-status-toggle.dead:hover {
+    background: rgba(100, 100, 100, 0.25);
+}
+.btn-status-saving {
+    opacity: 0.6;
+    pointer-events: none;
+}
 
 .detail-section {
     margin-bottom: 24px;
