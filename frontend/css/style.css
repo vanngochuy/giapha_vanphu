@@ -575,13 +575,66 @@ body.vintage-theme {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .app-header {
-        padding: 0 12px;
+        padding: 0 10px;
+        height: 55px;
+    }
+    .header-brand {
+        gap: 8px;
+    }
+    .header-brand .emblem {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    .header-title h1 {
+        font-size: 14px;
+        letter-spacing: 0px;
     }
     .header-title .subtitle {
         display: none;
     }
+    .header-tools {
+        gap: 8px;
+    }
     .search-box {
-        width: 160px;
+        width: 130px;
+    }
+    .search-box input {
+        padding: 6px 10px 6px 30px;
+        font-size: 12px;
+    }
+    .search-box .search-icon {
+        left: 10px;
+    }
+    .btn-gold span {
+        display: none; /* Ẩn chữ Xuất PDF, chỉ hiện icon */
+    }
+    .btn-gold {
+        padding: 6px 10px;
+        border-radius: 8px;
+    }
+    .btn-outline-gold {
+        width: 32px;
+        height: 32px;
+    }
+    .canvas-controls {
+        bottom: 16px;
+        left: 16px;
+        padding: 6px;
+        gap: 6px;
+    }
+    .btn-control {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+    .tree-legend {
+        top: 70px;
+        left: 10px;
+        padding: 4px 8px;
+    }
+    .legend-item {
+        font-size: 10px;
     }
     .side-panel {
         width: 100%;
@@ -591,6 +644,7 @@ body.vintage-theme {
         border-left: none;
         border-top: 2px solid var(--gold-primary);
         transform: translateY(0);
+        border-radius: 20px 20px 0 0;
     }
     .side-panel.hidden {
         transform: translateY(100%);

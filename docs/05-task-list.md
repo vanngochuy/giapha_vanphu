@@ -44,6 +44,13 @@
 
 ---
 
+## Phase 2D: Mobile Optimization
+- [x] ✅ **[T2D-001]** Tối ưu Header, ẩn bớt text không cần thiết, thu nhỏ logo/font
+- [x] ✅ **[T2D-002]** Scale Layout Side Panel tràn viền trên màn hình nhỏ
+- [x] ✅ **[T2D-003]** Bổ sung logic Zoom cho Mobile trong `tree_visualizer.js`
+
+---
+
 ## Phase 5: Testing & Deployment
 
 ### 5A. Unit Tests Backend

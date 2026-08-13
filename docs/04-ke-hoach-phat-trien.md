@@ -14,6 +14,7 @@ Phase 1: Backend API Core         [✅ HOÀN THÀNH]
 Phase 2: Frontend MVP             [✅ HOÀN THÀNH]
 Phase 2B: Design System v2        [✅ HOÀN THÀNH]
 Phase 2C: Light/Dark Mode         [✅ HOÀN THÀNH]
+Phase 2D: Mobile Optimization     [✅ HOÀN THÀNH]
 Phase 3: D3.js Tree Visualization [✅ HOÀN THÀNH]
 Phase 3B: Vertical Layout         [✅ HOÀN THÀNH]
 Phase 4: PDF Export               [✅ HOÀN THÀNH]
@@ -96,6 +97,19 @@ Phase 8: Tối Ưu & Hoàn Thiện    [⏳ KẾ HOẠCH]
 | 2C.1 | Thêm CSS variables cho Light Theme | `style.css` | ✅ Done |
 | 2C.2 | Thêm nút Toggle Theme góc phải trên cùng | `index.html` | ✅ Done |
 | 2C.3 | JS logic đổi Theme + Lưu LocalStorage + Auto theo giờ | `app.js` | ✅ Done |
+
+---
+
+## Phase 2D: Mobile Optimization ✅
+
+**Mục tiêu:** Tối ưu hóa giao diện cho điện thoại di động (Mobile Responsive).
+
+| Bước | Công việc | File | Trạng thái |
+|------|-----------|------|-----------|
+| 2D.1 | Responsive Header, Search Box, Buttons | `style.css` | ✅ Done |
+| 2D.2 | Thu nhỏ Legend, Canvas Controls | `style.css` | ✅ Done |
+| 2D.3 | Responsive Side Panel (100% width) | `style.css` | ✅ Done |
+| 2D.4 | Tối ưu Zoom mức độ hiển thị ban đầu cho điện thoại | `tree_visualizer.js` | ✅ Done |
 
 ---
 

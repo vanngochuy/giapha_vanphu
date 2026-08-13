@@ -290,7 +290,9 @@ class TreeVisualizer {
     resetZoom() {
         const containerWidth = this.container.clientWidth;
         const containerHeight = this.container.clientHeight;
-        const initialTransform = d3.zoomIdentity.translate(containerWidth / 2, 80).scale(0.85);
+        const isMobile = containerWidth < 768;
+        const scale = isMobile ? 0.45 : 0.85;
+        const initialTransform = d3.zoomIdentity.translate(containerWidth / 2, 80).scale(scale);
         this.svg.transition().duration(500).call(this.zoom.transform, initialTransform);
     }
 
@@ -319,9 +321,11 @@ class TreeVisualizer {
             // Center view on target node
             const containerWidth = this.container.clientWidth;
             const containerHeight = this.container.clientHeight;
+            const isMobile = containerWidth < 768;
+            const targetScale = isMobile ? 0.7 : 1.2;
             const transform = d3.zoomIdentity
                 .translate(containerWidth / 2 - targetNode.x, containerHeight / 2 - targetNode.y + this.nodeHeight / 2)
-                .scale(1.2);
+                .scale(targetScale);
 
             this.svg.transition().duration(750).call(this.zoom.transform, transform);
 
