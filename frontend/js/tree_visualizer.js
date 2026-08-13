@@ -36,8 +36,8 @@ class TreeVisualizer {
 
         // Convert data into D3 hierarchy
         this.root = d3.hierarchy(treeData, d => d.children);
-        this.root.x0 = this.container.clientHeight / 2;
-        this.root.y0 = 100;
+        this.root.x0 = 0;
+        this.root.y0 = 0;
 
         // Collapse nodes deeper than generation 3 by default for cleaner view
         if (this.root.children) {
@@ -59,9 +59,9 @@ class TreeVisualizer {
     }
 
     update(source) {
-        // Declare tree layout (horizontal layout: dx = vertical spacing, dy = horizontal depth spacing)
+        // Declare tree layout (vertical layout: dx = width spacing, dy = height spacing)
         const treeLayout = d3.tree()
-            .nodeSize([this.nodeHeight + 35, this.nodeWidth + 70]);
+            .nodeSize([this.nodeWidth + 40, this.nodeHeight + 80]);
 
         const treeData = treeLayout(this.root);
 
@@ -70,7 +70,7 @@ class TreeVisualizer {
 
         // Normalize for fixed-depth spacing
         nodes.forEach(d => {
-            d.y = d.depth * (this.nodeWidth + 90);
+            d.y = d.depth * (this.nodeHeight + 80);
         });
 
         // ==================== NODES ====================
@@ -80,7 +80,7 @@ class TreeVisualizer {
         // Enter new nodes at the parent's previous position
         const nodeEnter = node.enter().append("g")
             .attr("class", "node-card")
-            .attr("transform", d => `translate(${source.y0 || source.y},${source.x0 || source.x})`)
+            .attr("transform", d => `translate(${source.x0 || source.x},${source.y0 || source.y})`)
             .on("click", (event, d) => {
                 event.stopPropagation();
                 
@@ -96,7 +96,7 @@ class TreeVisualizer {
             .attr("class", "node-rect")
             .attr("width", this.nodeWidth)
             .attr("height", this.nodeHeight)
-            .attr("x", 0)
+            .attr("x", -this.nodeWidth / 2)
             .attr("y", -this.nodeHeight / 2)
             .attr("rx", 8)
             .style("stroke", d => d.data.generation === 1 ? "var(--seal-red)" : null)
@@ -104,7 +104,7 @@ class TreeVisualizer {
 
         // Signature seal for Thuỷ Tổ (Top Left - overlapping border)
         const sealGroup = nodeEnter.filter(d => d.data.generation === 1).append("g")
-            .attr("transform", `translate(-4, ${-this.nodeHeight / 2 - 4}) rotate(-8)`);
+            .attr("transform", `translate(${-this.nodeWidth / 2 - 4}, ${-this.nodeHeight / 2 - 4}) rotate(-8)`);
         
         sealGroup.append("circle")
             .attr("r", 14)
@@ -122,16 +122,16 @@ class TreeVisualizer {
 
         // Header Line Divider inside Card
         nodeEnter.append("line")
-            .attr("x1", 0)
-            .attr("y1", -this.nodeHeight / 2 + 26)
-            .attr("x2", this.nodeWidth)
-            .attr("y2", -this.nodeHeight / 2 + 26)
-            .attr("stroke", "rgba(212, 175, 55, 0.3)")
-            .attr("stroke-width", "1px");
+            .attr("class", "node-divider")
+            .attr("x1", -this.nodeWidth / 2)
+            .attr("y1", -this.nodeHeight / 2 + 25)
+            .attr("x2", this.nodeWidth / 2)
+            .attr("y2", -this.nodeHeight / 2 + 25)
+            .attr("stroke", "var(--gold-border)");
 
         // Generation Badge Text (Top Left)
         nodeEnter.append("text")
-            .attr("x", 12)
+            .attr("x", -this.nodeWidth / 2 + 12)
             .attr("y", -this.nodeHeight / 2 + 17)
             .attr("fill", "var(--gold-primary)")
             .attr("font-size", "11px")
@@ -142,7 +142,7 @@ class TreeVisualizer {
         // Expand/Collapse Indicator Badge (Top Right)
         nodeEnter.append("text")
             .attr("class", "expand-indicator")
-            .attr("x", this.nodeWidth - 12)
+            .attr("x", this.nodeWidth / 2 - 12)
             .attr("y", -this.nodeHeight / 2 + 17)
             .attr("text-anchor", "end")
             .attr("fill", "var(--gold-primary)")
@@ -157,14 +157,14 @@ class TreeVisualizer {
         // Member Full Name (Middle)
         nodeEnter.append("text")
             .attr("class", "node-text-name")
-            .attr("x", 12)
+            .attr("x", -this.nodeWidth / 2 + 12)
             .attr("y", -this.nodeHeight / 2 + 45)
             .text(d => this.truncateText(d.data.full_name, 22));
 
         // Member Spouse / Note Meta (Bottom)
         nodeEnter.append("text")
             .attr("class", "node-text-meta")
-            .attr("x", 12)
+            .attr("x", -this.nodeWidth / 2 + 12)
             .attr("y", -this.nodeHeight / 2 + 65)
             .text(d => {
                 if (d.data.spouse) return this.truncateText(d.data.spouse, 26);
@@ -177,7 +177,7 @@ class TreeVisualizer {
 
         nodeUpdate.transition()
             .duration(this.duration)
-            .attr("transform", d => `translate(${d.y},${d.x})`);
+            .attr("transform", d => `translate(${d.x},${d.y})`);
 
         nodeUpdate.select(".expand-indicator")
             .text(d => d._children ? "⊕" : (d.children ? "⊖" : ""));
@@ -185,7 +185,7 @@ class TreeVisualizer {
         // EXIT
         const nodeExit = node.exit().transition()
             .duration(this.duration)
-            .attr("transform", d => `translate(${source.y},${source.x})`)
+            .attr("transform", d => `translate(${source.x},${source.y})`)
             .remove();
 
         // ==================== LINKS ====================
@@ -221,17 +221,17 @@ class TreeVisualizer {
         });
     }
 
-    // Cubic Bezier Curved link path
+    // Cubic Bezier Curved link path (Vertical)
     diagonal(s, t) {
-        const sy = s.y + this.nodeWidth;
         const sx = s.x;
-        const ty = t.y;
+        const sy = s.y + this.nodeHeight / 2;
         const tx = t.x;
+        const ty = t.y - this.nodeHeight / 2;
 
-        return `M ${sy} ${sx}
-                C ${(sy + ty) / 2} ${sx},
-                  ${(sy + ty) / 2} ${tx},
-                  ${ty} ${tx}`;
+        return `M ${sx} ${sy}
+                C ${sx} ${(sy + ty) / 2},
+                  ${tx} ${(sy + ty) / 2},
+                  ${tx} ${ty}`;
     }
 
     toggleNode(d) {
@@ -290,7 +290,7 @@ class TreeVisualizer {
     resetZoom() {
         const containerWidth = this.container.clientWidth;
         const containerHeight = this.container.clientHeight;
-        const initialTransform = d3.zoomIdentity.translate(80, containerHeight / 2).scale(0.85);
+        const initialTransform = d3.zoomIdentity.translate(containerWidth / 2, 80).scale(0.85);
         this.svg.transition().duration(500).call(this.zoom.transform, initialTransform);
     }
 
@@ -320,8 +320,8 @@ class TreeVisualizer {
             const containerWidth = this.container.clientWidth;
             const containerHeight = this.container.clientHeight;
             const transform = d3.zoomIdentity
-                .translate(containerWidth / 2 - targetNode.y, containerHeight / 2 - targetNode.x)
-                .scale(1.1);
+                .translate(containerWidth / 2 - targetNode.x, containerHeight / 2 - targetNode.y + this.nodeHeight / 2)
+                .scale(1.2);
 
             this.svg.transition().duration(750).call(this.zoom.transform, transform);
 

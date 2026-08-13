@@ -22,6 +22,21 @@
 
 ---
 
+## Phase 3: D3.js Tree Visualization
+- [x] ✅ **[T3-001]** Xây dựng module `TreeVisualizer` Class
+- [x] ✅ **[T3-002]** Chức năng Zoom in, Zoom out, Reset, Pan
+- [x] ✅ **[T3-003]** Click Node mở Side Panel thông tin
+- [x] ✅ **[T3-004]** Nút Expand/Collapse cây theo nhánh
+
+---
+
+## Phase 3B: Vertical Layout
+- [x] ✅ **[T3B-001]** Đảo ngược trục x, y để cây mọc từ trên xuống (Dọc)
+- [x] ✅ **[T3B-002]** Căn chỉnh lại text, link line cong Cubic Bezier theo phương dọc
+- [x] ✅ **[T3B-003]** Viết lại logic Zoom/Pan căn giữa vào gốc cây
+
+---
+
 ## Phase 2C: Light/Dark Mode
 - [x] ✅ **[T2C-001]** Thêm CSS variables cho Light Theme trong `style.css`
 - [x] ✅ **[T2C-002]** Thêm nút Toggle Theme (Sáng/Tối) vào góc phải Header (`index.html`)

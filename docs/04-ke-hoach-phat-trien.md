@@ -15,6 +15,7 @@ Phase 2: Frontend MVP             [✅ HOÀN THÀNH]
 Phase 2B: Design System v2        [✅ HOÀN THÀNH]
 Phase 2C: Light/Dark Mode         [✅ HOÀN THÀNH]
 Phase 3: D3.js Tree Visualization [✅ HOÀN THÀNH]
+Phase 3B: Vertical Layout         [✅ HOÀN THÀNH]
 Phase 4: PDF Export               [✅ HOÀN THÀNH]
 Phase 5: Testing & Deployment     [🔄 ĐANG THỰC HIỆN]
 Phase 6: Nâng Cấp Dữ Liệu       [⏳ KẾ HOẠCH]
@@ -113,6 +114,19 @@ Phase 8: Tối Ưu & Hoàn Thiện    [⏳ KẾ HOẠCH]
 | 3.7 | Expand All / Collapse All | `tree_visualizer.js` | ✅ Done |
 | 3.8 | Focus & highlight node (từ search) | `tree_visualizer.js` | ✅ Done |
 | 3.9 | Default collapse đời >= 3 khi load | `tree_visualizer.js` | ✅ Done |
+
+---
+
+## Phase 3B: Vertical Layout ✅
+
+**Mục tiêu:** Chuyển hướng hiển thị sơ đồ cây từ chiều ngang (Horizontal) sang chiều dọc (Vertical).
+
+| Bước | Công việc | File | Trạng thái |
+|------|-----------|------|-----------|
+| 3B.1 | Chuyển đổi tọa độ Layout (x, y) sang dọc | `tree_visualizer.js` | ✅ Done |
+| 3B.2 | Sửa nét vẽ Cubic Bezier cong theo chiều dọc | `tree_visualizer.js` | ✅ Done |
+| 3B.3 | Căn giữa Text, Badge trong Node Card | `tree_visualizer.js` | ✅ Done |
+| 3B.4 | Cập nhật hàm Reset Zoom và Focus Node | `tree_visualizer.js` | ✅ Done |
 
 ---
 
