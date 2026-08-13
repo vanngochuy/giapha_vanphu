@@ -249,6 +249,8 @@ class TreeVisualizer {
         if (!this.root) return;
         this.expandNodeRecursive(this.root);
         this.update(this.root);
+        // BUG-001/002/003 Fix: auto-fit after expanding all nodes
+        setTimeout(() => this.fitToScreen(), 450);
     }
 
     collapseAll() {
@@ -257,6 +259,8 @@ class TreeVisualizer {
             this.root.children.forEach(c => this.collapseNodeRecursive(c));
         }
         this.update(this.root);
+        // Re-center on root after collapse
+        setTimeout(() => this.resetZoom(), 450);
     }
 
     expandNodeRecursive(d) {
@@ -294,6 +298,41 @@ class TreeVisualizer {
         const scale = isMobile ? 0.45 : 0.85;
         const initialTransform = d3.zoomIdentity.translate(containerWidth / 2, 80).scale(scale);
         this.svg.transition().duration(500).call(this.zoom.transform, initialTransform);
+    }
+
+    // BUG-005 Fix: Fit all visible nodes into screen
+    fitToScreen() {
+        if (!this.root) return;
+        const nodes = this.root.descendants();
+        if (nodes.length === 0) return;
+
+        let minX = Infinity, maxX = -Infinity;
+        let minY = Infinity, maxY = -Infinity;
+
+        nodes.forEach(d => {
+            if (d.x !== undefined && d.y !== undefined) {
+                minX = Math.min(minX, d.x - this.nodeWidth / 2);
+                maxX = Math.max(maxX, d.x + this.nodeWidth / 2);
+                minY = Math.min(minY, d.y - this.nodeHeight / 2);
+                maxY = Math.max(maxY, d.y + this.nodeHeight + 20);
+            }
+        });
+
+        const containerWidth = this.container.clientWidth;
+        const containerHeight = this.container.clientHeight;
+        const padding = 60;
+        const treeWidth = maxX - minX;
+        const treeHeight = maxY - minY;
+
+        const scaleX = (containerWidth - padding * 2) / treeWidth;
+        const scaleY = (containerHeight - padding * 2) / treeHeight;
+        const scale = Math.min(scaleX, scaleY, 1.0); // cap at 1.0 for readability
+
+        const tx = containerWidth / 2 - (minX + treeWidth / 2) * scale;
+        const ty = padding - minY * scale;
+
+        const transform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+        this.svg.transition().duration(600).call(this.zoom.transform, transform);
     }
 
     focusNode(memberId) {

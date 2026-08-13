@@ -64,6 +64,24 @@ body.light-theme .search-result-item:hover {
     background: rgba(0, 0, 0, 0.05);
 }
 
+/* BUG-006: Legend bar màu sáng trong Light Mode */
+body.light-theme .tree-legend {
+    background: rgba(234, 230, 221, 0.92);
+    border-color: rgba(180, 140, 60, 0.4);
+    color: var(--parchment-text);
+}
+
+/* BUG-006: Canvas controls trong Light Mode */
+body.light-theme .canvas-controls {
+    background: rgba(234, 230, 221, 0.92);
+    border-color: rgba(180, 140, 60, 0.4);
+}
+
+body.light-theme .btn-control {
+    color: var(--parchment-text);
+    background: transparent;
+}
+
 /* Reset & Base Styles */
 * {
     box-sizing: border-box;
@@ -323,9 +341,13 @@ body.vintage-theme {
     font-family: var(--font-sans);
     font-size: 12px;
     z-index: 50;
+    transition: background 0.3s, border-color 0.3s;
 }
 
 .legend-info { color: var(--gold-primary); font-weight: bold; margin-left: 8px; }
+
+/* UX-004: info-row ẩn khi rỗng */
+.info-row { display: flex; justify-content: space-between; margin: 6px 0; }
 
 /* Slide-in Side Panel */
 .side-panel {

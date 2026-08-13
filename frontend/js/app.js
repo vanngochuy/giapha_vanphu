@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btnZoomIn").addEventListener("click", () => treeVisualizer.zoomIn());
     document.getElementById("btnZoomOut").addEventListener("click", () => treeVisualizer.zoomOut());
     document.getElementById("btnResetZoom").addEventListener("click", () => treeVisualizer.resetZoom());
+    document.getElementById("btnFitScreen").addEventListener("click", () => treeVisualizer.fitToScreen()); // BUG-005
     document.getElementById("btnExpandAll").addEventListener("click", () => treeVisualizer.expandAll());
     document.getElementById("btnCollapseAll").addEventListener("click", () => treeVisualizer.collapseAll());
     
@@ -74,8 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("searchInput");
     const searchResults = document.getElementById("searchResults");
 
+    // BUG-004 Fix: Helper normalize tiếng Việt bỏ dấu
+    const normalize = (str) => str
+        ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+        : "";
+
     searchInput.addEventListener("input", (e) => {
-        const query = e.target.value.trim().toLowerCase();
+        const rawQuery = e.target.value.trim();
+        const query = normalize(rawQuery);
         if (!query) {
             searchResults.classList.add("hidden");
             searchResults.innerHTML = "";
@@ -83,13 +90,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const filtered = allMembersList.filter(m => 
-            m.full_name.toLowerCase().includes(query) ||
-            m.id.toLowerCase().includes(query) ||
-            (m.branch_name && m.branch_name.toLowerCase().includes(query)) ||
-            (m.notes && m.notes.toLowerCase().includes(query))
+            normalize(m.full_name).includes(query) ||
+            normalize(m.id).includes(query) ||
+            (m.branch_name && normalize(m.branch_name).includes(query)) ||
+            (m.notes && normalize(m.notes).includes(query))
         );
 
         renderSearchResults(filtered);
+    });
+
+    // UX-005 Fix: Đóng dropdown khi bấm Escape
+    searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            searchResults.classList.add("hidden");
+            searchInput.blur();
+        }
     });
 
     // Close search dropdown on outside click
@@ -161,6 +176,19 @@ document.addEventListener("DOMContentLoaded", () => {
         searchResults.classList.remove("hidden");
     }
 
+    // UX-004: helper ẩn row nếu giá trị rỗng
+    function setInfoRow(rowId, value, emptyText) {
+        const el = document.getElementById(rowId);
+        const row = el ? el.closest(".info-row") : null;
+        if (value && value !== emptyText) {
+            el.innerText = value;
+            if (row) row.style.display = "";
+        } else {
+            el.innerText = "";
+            if (row) row.style.display = "none";
+        }
+    }
+
     function showMemberDetail(m) {
         if (!m) return;
         
@@ -171,14 +199,16 @@ document.addEventListener("DOMContentLoaded", () => {
         
         document.getElementById("infoId").innerText = m.id || "---";
         document.getElementById("infoParent").innerText = m.parent_id ? getMemberNameById(m.parent_id) : "(Thuỷ Tổ)";
-        document.getElementById("infoOrder").innerText = m.order_in_family ? `Con thứ ${m.order_in_family}` : "---";
-        document.getElementById("infoSpouse").innerText = m.spouse || "Không có thông tin";
+        
+        setInfoRow("infoOrder", m.order_in_family ? `Con thứ ${m.order_in_family}` : null, null);
+        setInfoRow("infoSpouse", m.spouse, null);
+        
         document.getElementById("infoBranch").innerText = m.branch_name || "Dòng chính Họ Văn Phú";
         
-        document.getElementById("infoBirthYear").innerText = m.birth_year || "Không rõ";
-        document.getElementById("infoDeathLunar").innerText = m.death_date_lunar || "Không rõ";
-        document.getElementById("infoBurial").innerText = m.burial_place || "Chưa cập nhật";
-        document.getElementById("infoNotes").innerText = m.notes || "Không có ghi chú.";
+        setInfoRow("infoBirthYear", m.birth_year, null);
+        setInfoRow("infoDeathLunar", m.death_date_lunar, null);
+        setInfoRow("infoBurial", m.burial_place && m.burial_place !== "Chưa cập nhật" ? m.burial_place : null, null);
+        setInfoRow("infoNotes", m.notes, null);
 
         // Gender avatar icon
         const avatarIcon = document.getElementById("memberAvatarIcon");
