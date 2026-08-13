@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gia Phả Họ Văn Phú - Sơ Đồ Cây Tương Tác</title>
+    
+    <!-- Google Fonts: Playfair Display & Merriweather -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- D3.js v7 & html2canvas / jspdf for PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Custom Vintage & Mystical Style -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="vintage-theme">
+
+    <!-- Header Header Bar -->
+    <header class="app-header">
+        <div class="header-brand">
+            <div class="emblem"><i class="fa-solid fa-tree"></i></div>
+            <div class="header-title">
+                <h1>GIA PHẢ HỌ VĂN PHÚ</h1>
+                <p class="subtitle">Văn Phú Tộc Gia Phả - Bách Niên Cổ Thụ</p>
+            </div>
+        </div>
+
+        <!-- Top Controls: Search & Tools -->
+        <div class="header-tools">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Tìm kiếm tên thành viên, đời, nhánh..." autocomplete="off">
+                <div id="searchResults" class="search-dropdown hidden"></div>
+            </div>
+
+            <button id="btnExportPDF" class="btn-gold" title="Xuất sơ đồ cây ra PDF">
+                <i class="fa-solid fa-file-pdf"></i> <span>Xuất PDF</span>
+            </button>
+
+            <button id="btnToggleSidePanel" class="btn-outline-gold" title="Xem danh sách dòng họ">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Canvas Viewport (Takes >= 85% of screen) -->
+    <main class="tree-viewport">
+        
+        <!-- Floating Canvas Action Controls -->
+        <div class="canvas-controls">
+            <button id="btnZoomIn" title="Phóng to"><i class="fa-solid fa-plus"></i></button>
+            <button id="btnZoomOut" title="Thu nhỏ"><i class="fa-solid fa-minus"></i></button>
+            <button id="btnResetZoom" title="Đặt lại góc nhìn"><i class="fa-solid fa-arrows-to-dot"></i></button>
+            <div class="control-divider"></div>
+            <button id="btnExpandAll" title="Mở rộng tất cả các nhánh"><i class="fa-solid fa-folder-open"></i></button>
+            <button id="btnCollapseAll" title="Gập tất cả các nhánh"><i class="fa-solid fa-folder"></i></button>
+        </div>
+
+        <!-- Stats Legend Bar -->
+        <div class="tree-legend">
+            <span class="legend-item"><span class="badge-dot dot-male"></span> Nam</span>
+            <span class="legend-item"><span class="badge-dot dot-female"></span> Nữ</span>
+            <span class="legend-item"><span class="badge-dot dot-gold"></span> Thủy Tổ</span>
+            <span class="legend-info" id="totalMembersCount">Tổng số: -- thành viên</span>
+        </div>
+
+        <!-- SVG Container for D3.js -->
+        <div id="treeContainer" class="svg-container">
+            <svg id="treeSvg" width="100%" height="100%"></svg>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="spinner-vintage"></div>
+            <p>Đang tải sơ đồ Gia Phả Họ Văn Phú...</p>
+        </div>
+    </main>
+
+    <!-- Slide-in Side Panel (Trượt từ bên phải) -->
+    <aside id="sidePanel" class="side-panel hidden">
+        <div class="panel-header">
+            <h2 id="panelTitle">Thông Tin Thành Viên</h2>
+            <button id="btnClosePanel" class="btn-close-panel"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="panel-content">
+            <div class="member-profile-card">
+                <div class="avatar-box" id="memberAvatarBox">
+                    <i class="fa-solid fa-user-tie" id="memberAvatarIcon"></i>
+                </div>
+                <h3 id="memberName" class="member-name">---</h3>
+                <div class="member-badges">
+                    <span id="badgeGen" class="badge badge-gold">Đời --</span>
+                    <span id="badgeGender" class="badge badge-dark">--</span>
+                    <span id="badgeStatus" class="badge badge-status">--</span>
+                </div>
+            </div>
+
+            <div class="detail-section">
+                <h4><i class="fa-solid fa-sitemap"></i> Quan Hệ Gia Đình</h4>
+                <div class="info-row"><label>Mã thành viên:</label> <span id="infoId">--</span></div>
+                <div class="info-row"><label>Cha / Mẹ:</label> <span id="infoParent">--</span></div>
+                <div class="info-row"><label>Thứ tự con:</label> <span id="infoOrder">--</span></div>
+                <div class="info-row"><label>Vợ / Chồng:</label> <span id="infoSpouse">--</span></div>
+                <div class="info-row"><label>Phân Nhánh:</label> <span id="infoBranch">--</span></div>
+            </div>
+
+            <div class="detail-section">
+                <h4><i class="fa-solid fa-book-bookmark"></i> Thông Tin & Ghi Chú</h4>
+                <div class="info-row"><label>Năm sinh:</label> <span id="infoBirthYear">--</span></div>
+                <div class="info-row"><label>Ngày giỗ (Âm lịch):</label> <span id="infoDeathLunar">--</span></div>
+                <div class="info-row"><label>Mộ phần / Nơi an táng:</label> <span id="infoBurial">--</span></div>
+                <div class="info-row vertical"><label>Ghi chú tiểu sử:</label>
+                    <p id="infoNotes" class="notes-box">Chưa có ghi chú.</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- App Scripts -->
+    <script src="js/tree_visualizer.js"></script>
+    <script src="js/pdf_export.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
