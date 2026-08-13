@@ -58,6 +58,23 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btnFitScreen").addEventListener("click", () => treeVisualizer.fitToScreen()); // BUG-005
     document.getElementById("btnExpandAll").addEventListener("click", () => treeVisualizer.expandAll());
     document.getElementById("btnCollapseAll").addEventListener("click", () => treeVisualizer.collapseAll());
+
+    // Click vào vùng trống trên canvas → đóng Side Panel về lề phải
+    document.getElementById("treeSvg").addEventListener("click", (e) => {
+        // Chỉ đóng nếu click vào nền (không phải node card)
+        if (!e.target.closest(".node-card")) {
+            hideSidePanel();
+            d3.selectAll(".node-card").classed("selected", false);
+        }
+    });
+
+    // Phím Escape → đóng Side Panel
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            hideSidePanel();
+            d3.selectAll(".node-card").classed("selected", false);
+        }
+    });
     
     // PDF Export
     document.getElementById("btnExportPDF").addEventListener("click", () => {
