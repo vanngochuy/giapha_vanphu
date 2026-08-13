@@ -211,7 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         document.getElementById("memberName").innerText = m.full_name || "---";
         document.getElementById("badgeGen").innerText = `Đời ${m.generation}`;
-        document.getElementById("badgeGender").innerText = m.gender || "Chưa rõ";
         document.getElementById("badgeStatus").innerText = m.status || "Còn sống";
         
         document.getElementById("infoId").innerText = m.id || "---";
@@ -247,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getMemberNameById(id) {
         const found = allMembersList.find(m => m.id === id);
-        return found ? `${found.full_name} (${found.id})` : id;
+        return found ? found.full_name : id; // Chỉ hiển thị tên, bỏ mã VP-XXX
     }
 
     function showLoading(show) {
