@@ -2,8 +2,11 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-# Default to SQLite for local development, or environment variable for PostgreSQL / Supabase
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./gia_pha.db")
+# Default to SQLite for local development. If on Vercel, use /tmp/ which is writable
+if os.getenv("VERCEL"):
+    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:////tmp/gia_pha.db")
+else:
+    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./gia_pha.db")
 
 # Fix Heroku/Render/Supabase postgres:// prefix to postgresql:// if needed
 if DATABASE_URL.startswith("postgres://"):
