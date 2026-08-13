@@ -154,7 +154,7 @@
 ### Lệnh Chạy Local
 ```bash
 # 1. Cài dependencies
-pip install -r backend/requirements.txt
+pip install -r requirements.txt
 
 # 2. Chạy server (auto seed nếu DB trống)
 uvicorn backend.app.main:app --reload --port 8000
