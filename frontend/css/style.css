@@ -37,6 +37,12 @@ body.light-theme {
     --bg-dark-emerald: #EAE6DD; /* Header Background */
     --bg-panel: #FFFFFF; /* Side Panel Background */
     
+    /* New explicit variables for gradient/hardcoded backgrounds */
+    --bg-header-gradient: #EAE6DD;
+    --bg-canvas-gradient: #F5F2EB;
+    --bg-panel-backdrop: rgba(255, 255, 255, 0.9);
+    --bg-panel-gradient: #FFFFFF;
+    
     /* Text in panel and header */
     --parchment-text: #2C2A26;
     
@@ -79,7 +85,7 @@ body.vintage-theme {
 /* Header Styling */
 .app-header {
     height: 65px;
-    background: linear-gradient(180deg, #121E1B 0%, #0A1210 100%);
+    background: var(--bg-header-gradient, linear-gradient(180deg, #121E1B 0%, #0A1210 100%));
     border-bottom: 2px solid var(--gold-primary);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
     display: flex;
@@ -252,7 +258,7 @@ body.vintage-theme {
 .tree-viewport {
     flex: 1;
     position: relative;
-    background: radial-gradient(circle at center, #101B18 0%, #060A09 100%);
+    background: var(--bg-canvas-gradient, radial-gradient(circle at center, #101B18 0%, #060A09 100%));
     overflow: hidden;
 }
 
@@ -373,8 +379,9 @@ body.vintage-theme {
 
 .panel-content {
     flex: 1;
-    overflow-y: auto;
     padding: 24px;
+    overflow-y: auto;
+    background: var(--bg-panel-gradient, linear-gradient(180deg, #182824 0%, #0F1A17 100%));
 }
 
 /* Member Profile Card inside Panel */
