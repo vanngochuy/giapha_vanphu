@@ -460,45 +460,64 @@ body.vintage-theme {
 
 .badge-gold { background: var(--gold-primary); color: #000; }
 .badge-dark { background: rgba(255, 255, 255, 0.1); color: var(--parchment-text); }
-.badge-status { background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981; }
-.badge-status.dead { background: rgba(100, 100, 100, 0.2); color: #999; border: 1px solid #666; }
 
-/* Nút Toggle Trạng Thái Sống/Mất */
-.btn-status-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    margin-top: 16px;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 13px;
-    font-family: var(--font-sans);
-    font-weight: 600;
-    cursor: pointer;
-    border: 1.5px solid;
-    transition: all 0.25s ease;
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
-.btn-status-toggle.alive {
-    background: rgba(16, 185, 129, 0.12);
+
+.status-control {
+    position: relative;
+    display: inline-flex;
+}
+
+.member-status-select {
+    appearance: none;
+    min-width: 104px;
+    padding: 4px 26px 4px 10px;
+    border: 1px solid #10B981;
+    border-radius: 12px;
+    background: rgba(16, 185, 129, 0.2);
     color: #10B981;
-    border-color: #10B981;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
 }
-.btn-status-toggle.alive:hover {
-    background: rgba(16, 185, 129, 0.25);
-}
-.btn-status-toggle.dead {
-    background: rgba(100, 100, 100, 0.12);
-    color: #999;
-    border-color: #666;
-}
-.btn-status-toggle.dead:hover {
-    background: rgba(100, 100, 100, 0.25);
-}
-.btn-status-saving {
-    opacity: 0.6;
+
+.status-control::after {
+    content: "⌄";
+    position: absolute;
+    right: 9px;
+    top: 50%;
+    transform: translateY(-58%);
+    color: currentColor;
     pointer-events: none;
+}
+
+.member-status-select:focus {
+    border-color: var(--gold-light);
+    box-shadow: 0 0 0 2px var(--gold-glow);
+}
+
+.member-status-select.is-deceased {
+    background: rgba(100, 100, 100, 0.2);
+    border-color: #666;
+    color: #999;
+}
+
+.member-status-select.is-saving,
+.member-status-select:disabled {
+    cursor: wait;
+    opacity: 0.65;
 }
 
 .detail-section {
@@ -537,6 +556,30 @@ body.vintage-theme {
 .info-row.vertical {
     flex-direction: column;
     gap: 6px;
+}
+
+.children-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.children-list-item,
+.children-list-empty {
+    padding: 7px 10px;
+    border-left: 2px solid var(--gold-border);
+    background: rgba(0, 0, 0, 0.16);
+    color: var(--parchment-text);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.children-list-empty {
+    color: var(--parchment-muted);
+    font-style: italic;
 }
 
 .notes-box {

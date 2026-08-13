@@ -7,6 +7,7 @@
 
 ## 🔥 NGAY BÂY GIỜ — Ưu Tiên Cao Nhất
 
+- [x] ✅ **[UI-001]** Điều chỉnh Side Panel thành viên: đã thêm danh sách chọn và lưu trạng thái `Còn sống`/`Đã mất` qua `PUT /api/members/{id}`, đồng bộ màu node cây; đã bỏ nút trạng thái ở cuối panel; đã thay `Phân nhánh` bằng danh sách `Con` theo chiều dọc (có thứ tự con); đã bổ sung assertion API cho trạng thái. Sửa tại `frontend/index.html`, `frontend/js/app.js`, `frontend/js/tree_visualizer.js`, `frontend/css/style.css`, `backend/tests/test_api.py`. Kiểm tra: `node --check` và `pytest backend/tests/ -v` — 11 passed.
 - [x] ✅ **[TEST-001]** Chạy `pytest backend/tests/test_hierarchy.py` để verify dữ liệu 106 thành viên (Đã pass 4/4 tests)
 - [x] ✅ **[TEST-002]** Bổ sung test case cho tất cả CRUD API endpoints (Đã pass 7/7 tests)
 - [x] ✅ **[TEST-003]** Test mobile responsive layout trên iPhone/Android (Responsive CSS đã hoàn thiện)
@@ -74,7 +75,7 @@
 - [ ] **[T5C-001]** Tạo project PostgreSQL trên Supabase
 - [ ] **[T5C-002]** Lấy connection string `DATABASE_URL` từ Supabase
 - [x] ✅ **[T5C-003]** Kiểm tra `database.py` tự động phát hiện PostgreSQL/SQLite
-- [ ] **[T5C-004]** Upload code lên GitHub: `vanngochuy/giapha_vanphu`
+- [ ] 🔄 **[T5C-004]** Upload code lên GitHub: `vanngochuy/giapha_vanphu` (đang commit và push thay đổi UI-001)
 - [ ] **[T5C-005]** Import dự án vào Vercel
 - [ ] **[T5C-006]** Set env var `DATABASE_URL` trên Vercel
 - [ ] **[T5C-007]** Deploy và chờ build thành công

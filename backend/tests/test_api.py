@@ -94,7 +94,8 @@ def test_api_create_member():
 def test_api_update_member():
     payload = {
         "full_name": "Test Child API Updated",
-        "notes": "Updated notes via API"
+        "notes": "Updated notes via API",
+        "status": "Đã mất"
     }
     response = client.put("/api/members/VP-TEST1", json=payload)
     assert response.status_code == 200
@@ -102,6 +103,7 @@ def test_api_update_member():
     assert data["id"] == "VP-TEST1"
     assert data["full_name"] == "Test Child API Updated"
     assert data["notes"] == "Updated notes via API"
+    assert data["status"] == "Đã mất"
 
 def test_api_delete_member():
     response = client.delete("/api/members/VP-TEST1")

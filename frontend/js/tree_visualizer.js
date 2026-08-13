@@ -99,17 +99,9 @@ class TreeVisualizer {
             .attr("x", -this.nodeWidth / 2)
             .attr("y", -this.nodeHeight / 2)
             .attr("rx", 8)
-            .style("stroke", d => {
-                if (d.data.generation === 1) return "var(--seal-red)";
-                if (d.data.status === "Còn sống") return "var(--node-alive-border)";
-                return "var(--node-dead-border)";
-            })
+            .style("stroke", d => this.getNodeStroke(d))
             .style("stroke-width", d => d.data.generation === 1 ? "2px" : "1.5px")
-            .style("fill", d => {
-                if (d.data.generation === 1) return "var(--bg-root-node)";
-                if (d.data.status === "Còn sống") return "var(--node-alive)";
-                return "var(--node-dead)";
-            });
+            .style("fill", d => this.getNodeFill(d));
 
         // Signature seal for Thuỷ Tổ (Top Left - overlapping border)
         const sealGroup = nodeEnter.filter(d => d.data.generation === 1).append("g")
@@ -184,6 +176,10 @@ class TreeVisualizer {
         // UPDATE
         const nodeUpdate = node.merge(nodeEnter);
 
+        nodeUpdate.select(".node-rect")
+            .style("stroke", d => this.getNodeStroke(d))
+            .style("fill", d => this.getNodeFill(d));
+
         nodeUpdate.transition()
             .duration(this.duration)
             .attr("transform", d => `translate(${d.x},${d.y})`);
@@ -241,6 +237,28 @@ class TreeVisualizer {
                 C ${sx} ${(sy + ty) / 2},
                   ${tx} ${(sy + ty) / 2},
                   ${tx} ${ty}`;
+    }
+
+    getNodeStroke(node) {
+        if (node.data.generation === 1) return "var(--seal-red)";
+        return node.data.status === "Còn sống"
+            ? "var(--node-alive-border)"
+            : "var(--node-dead-border)";
+    }
+
+    getNodeFill(node) {
+        if (node.data.generation === 1) return "var(--bg-root-node)";
+        return node.data.status === "Còn sống"
+            ? "var(--node-alive)"
+            : "var(--node-dead)";
+    }
+
+    refreshMember(memberId) {
+        this.g.selectAll("g.node-card")
+            .filter(d => d.data.id === memberId)
+            .select(".node-rect")
+            .style("stroke", d => this.getNodeStroke(d))
+            .style("fill", d => this.getNodeFill(d));
     }
 
     toggleNode(d) {

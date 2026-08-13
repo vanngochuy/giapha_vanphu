@@ -104,7 +104,13 @@
                 <h3 id="memberName" class="member-name">---</h3>
                 <div class="member-badges">
                     <span id="badgeGen" class="badge badge-gold">Đời --</span>
-                    <span id="badgeStatus" class="badge badge-status">--</span>
+                    <label class="status-control" for="memberStatus">
+                        <span class="visually-hidden">Trạng thái thành viên</span>
+                        <select id="memberStatus" class="member-status-select" aria-label="Trạng thái thành viên">
+                            <option value="Còn sống">Còn sống</option>
+                            <option value="Đã mất">Đã mất</option>
+                        </select>
+                    </label>
                 </div>
             </div>
 
@@ -113,7 +119,10 @@
                 <div class="info-row"><label>Cha / Mẹ:</label> <span id="infoParent">--</span></div>
                 <div class="info-row"><label>Thứ tự con:</label> <span id="infoOrder">--</span></div>
                 <div class="info-row"><label>Vợ / Chồng:</label> <span id="infoSpouse">--</span></div>
-                <div class="info-row"><label>Phân Nhánh:</label> <span id="infoBranch">--</span></div>
+                <div id="infoChildrenRow" class="info-row vertical">
+                    <label>Con:</label>
+                    <ul id="infoChildren" class="children-list"></ul>
+                </div>
             </div>
 
             <div class="detail-section">
@@ -124,12 +133,6 @@
                 <div class="info-row vertical"><label>Ghi chú tiểu sử:</label>
                     <p id="infoNotes" class="notes-box">Chưa có ghi chú.</p>
                 </div>
-
-                <!-- Nút Toggle Trạng Thái (Tạm thời mở cho tất cả, sau dành cho Admin) -->
-                <button id="btnToggleStatus" class="btn-status-toggle alive" title="Bấm để đổi trạng thái Sống / Mất">
-                    <i class="fa-solid fa-heart-pulse"></i>
-                    <span id="toggleStatusLabel">Còn sống</span>
-                </button>
             </div>
         </div>
     </aside>

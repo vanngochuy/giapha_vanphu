@@ -88,6 +88,12 @@ document.addEventListener("DOMContentLoaded", () => {
         sidePanel.classList.toggle("hidden");
     });
 
+    // Status is edited directly in the member profile card.
+    const memberStatusSelect = document.getElementById("memberStatus");
+    if (memberStatusSelect) {
+        memberStatusSelect.addEventListener("change", saveMemberStatus);
+    }
+
     // Search Input Setup
     const searchInput = document.getElementById("searchInput");
     const searchResults = document.getElementById("searchResults");
@@ -212,14 +218,13 @@ document.addEventListener("DOMContentLoaded", () => {
         
         document.getElementById("memberName").innerText = m.full_name || "---";
         document.getElementById("badgeGen").innerText = `Đời ${m.generation}`;
-        document.getElementById("badgeStatus").innerText = m.status || "Còn sống";
+        setMemberStatusControl(m.id, m.status);
         
         document.getElementById("infoParent").innerText = m.parent_id ? getMemberNameById(m.parent_id) : "(Thuỷ Tổ)";
         
         setInfoRow("infoOrder", m.order_in_family ? `Con thứ ${m.order_in_family}` : null, null);
         setInfoRow("infoSpouse", m.spouse, null);
-        
-        document.getElementById("infoBranch").innerText = m.branch_name || "Dòng chính Họ Văn Phú";
+        renderChildren(m.id);
         
         setInfoRow("infoBirthYear", m.birth_year, null);
         setInfoRow("infoDeathLunar", m.death_date_lunar, null);
@@ -238,6 +243,88 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Show side panel
         document.getElementById("sidePanel").classList.remove("hidden");
+    }
+
+    function setMemberStatusControl(memberId, status) {
+        if (!memberStatusSelect) return;
+        const normalizedStatus = status === "Đã mất" ? "Đã mất" : "Còn sống";
+        memberStatusSelect.dataset.memberId = memberId;
+        memberStatusSelect.value = normalizedStatus;
+        memberStatusSelect.classList.toggle("is-deceased", normalizedStatus === "Đã mất");
+        memberStatusSelect.disabled = false;
+    }
+
+    async function saveMemberStatus(event) {
+        const statusSelect = event.currentTarget;
+        const memberId = statusSelect.dataset.memberId;
+        const member = allMembersList.find(item => item.id === memberId);
+
+        if (!memberId || !member) return;
+
+        const previousStatus = member.status === "Đã mất" ? "Đã mất" : "Còn sống";
+        const nextStatus = statusSelect.value;
+        if (nextStatus === previousStatus) return;
+
+        statusSelect.disabled = true;
+        statusSelect.classList.add("is-saving");
+
+        try {
+            const response = await fetch(`${apiBaseUrl}/api/members/${encodeURIComponent(memberId)}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: nextStatus })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const updatedMember = await response.json();
+            Object.assign(member, updatedMember);
+            setMemberStatusControl(memberId, updatedMember.status);
+            treeVisualizer.refreshMember(memberId);
+        } catch (error) {
+            console.error("Error updating member status:", error);
+            member.status = previousStatus;
+            setMemberStatusControl(memberId, previousStatus);
+            alert("Không thể cập nhật trạng thái thành viên. Vui lòng thử lại.");
+        } finally {
+            statusSelect.classList.remove("is-saving");
+            statusSelect.disabled = false;
+        }
+    }
+
+    function renderChildren(memberId) {
+        const childrenRow = document.getElementById("infoChildrenRow");
+        const childrenList = document.getElementById("infoChildren");
+        if (!childrenRow || !childrenList) return;
+
+        const children = allMembersList
+            .filter(member => member.parent_id === memberId)
+            .sort((a, b) => {
+                const aOrder = a.order_in_family ?? Number.MAX_SAFE_INTEGER;
+                const bOrder = b.order_in_family ?? Number.MAX_SAFE_INTEGER;
+                return aOrder - bOrder || a.full_name.localeCompare(b.full_name, "vi");
+            });
+
+        childrenList.replaceChildren();
+
+        if (children.length === 0) {
+            const emptyItem = document.createElement("li");
+            emptyItem.className = "children-list-empty";
+            emptyItem.innerText = "Chưa có thông tin con.";
+            childrenList.appendChild(emptyItem);
+        } else {
+            children.forEach(child => {
+                const childItem = document.createElement("li");
+                childItem.className = "children-list-item";
+                const ordinal = child.order_in_family ? `Con thứ ${child.order_in_family}: ` : "";
+                childItem.innerText = `${ordinal}${child.full_name}`;
+                childrenList.appendChild(childItem);
+            });
+        }
+
+        childrenRow.style.display = "";
     }
 
     function hideSidePanel() {
