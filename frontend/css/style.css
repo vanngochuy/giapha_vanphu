@@ -32,10 +32,10 @@
     --node-selected: #2D271D;
 
     /* Node Status Colors */
-    --node-alive: #0D2B3E;       /* Xanh dương đậm — Còn sống */
-    --node-alive-border: #2E7DAF; /* Viền xanh nước — Còn sống */
-    --node-dead: #2A2A2A;        /* Xám than — Đã mất */
-    --node-dead-border: #555552; /* Viền xám — Đã mất */
+    --node-alive: #164e63;       /* Xanh dương nền — Còn sống */
+    --node-alive-border: #38bdf8; /* Viền xanh da trời — Còn sống */
+    --node-dead: #374151;        /* Xám tối nền — Đã mất */
+    --node-dead-border: #9ca3af; /* Viền xám — Đã mất */
 
 body.light-theme {
     --bg-dark-obsidian: #F5F2EB; /* SVG Canvas Background */

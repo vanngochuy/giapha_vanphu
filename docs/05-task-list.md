@@ -1,13 +1,16 @@
 # Task List - Danh Sách Công Việc Gia Phả Họ Văn Phú
 
-> **Cập nhật:** 2026-08-13  
+> **Cập nhật:** 2026-08-15  
 > **Chú thích:** ✅ Hoàn thành | 🔄 Đang làm | ⏳ Chưa làm | ❌ Bị chặn
 
 ---
 
 ## 🔥 NGAY BÂY GIỜ — Ưu Tiên Cao Nhất
 
-- [x] ✅ **[UI-001]** Điều chỉnh Side Panel thành viên: đã thêm danh sách chọn và lưu trạng thái `Còn sống`/`Đã mất` qua `PUT /api/members/{id}`, đồng bộ màu node cây; đã bỏ nút trạng thái ở cuối panel; đã thay `Phân nhánh` bằng danh sách `Con` theo chiều dọc (có thứ tự con); đã bổ sung assertion API cho trạng thái. Sửa tại `frontend/index.html`, `frontend/js/app.js`, `frontend/js/tree_visualizer.js`, `frontend/css/style.css`, `backend/tests/test_api.py`. Kiểm tra: `node --check` và `pytest backend/tests/ -v` — 11 passed.
+- [x] ✅ **[UI-001]** Node màu xanh (Còn sống) / xám (Đã mất) trong cây D3 theo trạng thái
+- [x] ✅ **[UI-002]** Select dropdown đổi trạng thái Sống/Mất ngay trong Side Panel, lưu qua `PUT /api/members/{id}`, cập nhật màu node real-time không cần reload
+- [x] ✅ **[UI-003]** Danh sách con (Con thứ X: Tên) hiển thị trong Side Panel theo thứ tự
+- [x] ✅ **[BUG-FIX]** Sửa 7 bug rà soát: auto-fit expand all, fit to screen button, Vietnamese search normalize, legend light mode, hide empty fields, close panel on canvas click, Escape key
 - [x] ✅ **[TEST-001]** Chạy `pytest backend/tests/test_hierarchy.py` để verify dữ liệu 106 thành viên (Đã pass 4/4 tests)
 - [x] ✅ **[TEST-002]** Bổ sung test case cho tất cả CRUD API endpoints (Đã pass 7/7 tests)
 - [x] ✅ **[TEST-003]** Test mobile responsive layout trên iPhone/Android (Responsive CSS đã hoàn thiện)
